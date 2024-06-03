@@ -1,3 +1,19 @@
+
 spring:
   application:
     name: askTheStars-BE
+    
+  datasource:
+    driver-class-name: com.mysql.dj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/askTheStar
+    user_name: askTheStar
+    password: 1234
+    
+  mybatis: 
+    type-aliases-package: solji.star.*
+    config-location: classpath:Mybatis-Config.xml
+    mapper-location: classpath:mapper/*.xml
+
+server:
+  port: 80
+  
