@@ -3,7 +3,7 @@ package com.solji.star.member.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class AuthController {
+public class LoginController {
 	
 	//회원가입
 	//refresh token을 생성하여 DB에 회원정보와 함께 저장
