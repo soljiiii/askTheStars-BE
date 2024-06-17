@@ -1,0 +1,13 @@
+package com.solji.star.member.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface MemberMapper {
+
+    // 중복확인
+	public int joinIdCheck(String memberId);
+    public int joinNickNmCheck(String memberNickNm);
+
+    // 회원가입, 회원수정, 회원탈퇴 관련 메소드 추가 가능
+}
