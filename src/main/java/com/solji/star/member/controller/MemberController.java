@@ -1,10 +1,13 @@
 package com.solji.star.member.controller;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,8 +23,17 @@ public class MemberController {
 	//회원가입
 	//refresh token을 생성하여 DB에 회원정보와 함께 저장
 	@PostMapping("/memberJoin")
-	public String memberJoin(MemberDTO memberDTO) {
+	public String memberJoin(@RequestBody MemberDTO memberDTO) {
+		System.out.println("DTO"+memberDTO);
 		
+		Random random = new Random();
+		int randomStar = random.nextInt(5);
+		System.out.println(randomStar);
+		
+		memberDTO.setStarImage(randomStar);
+		memberDTO.setRefreshToken("임시토큰");		
+		
+		memberService.joinUser(memberDTO);
 		return "ok";
 	}
 	/*----------------------------------------------------*/

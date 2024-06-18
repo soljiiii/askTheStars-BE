@@ -25,6 +25,11 @@ public class MemberService {
 		int result = memberMapper.joinNickNmCheck(memberNickNm);
 		return result;
 	}
+
+	public void joinUser(MemberDTO memberDTO) {
+		memberMapper.joinUser(memberDTO);
+		
+	}
 	
 	//회원수정
 	

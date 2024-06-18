@@ -5,6 +5,7 @@ import org.apache.ibatis.type.Alias;
 import lombok.Data;
 
 @Data
+
 @Alias("member")
 public class MemberDTO {
 	private String memberId;
