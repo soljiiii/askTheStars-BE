@@ -3,6 +3,7 @@ package com.solji.star.member.controller;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,12 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.solji.star.member.model.MemberDTO;
 import com.solji.star.member.service.MemberService;
+import com.solji.star.member.util.JwtUtil;
 
 @RestController
 public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private JwtUtil jwtUtil;
 	
 	//회원가입
 	//refresh token을 생성하여 DB에 회원정보와 함께 저장
@@ -30,8 +38,13 @@ public class MemberController {
 		int randomStar = random.nextInt(5);
 		System.out.println(randomStar);
 		
+		//이미지 랜덤 번호
 		memberDTO.setStarImage(randomStar);
-		memberDTO.setRefreshToken("임시토큰");		
+		//비밀번호 암호화
+		memberDTO.setMemberPw(passwordEncoder.encode(memberDTO.getMemberPw()));
+//		//토큰 저장
+//		String refreshToken = jwtUtil.createRefreshToken(memberDTO.getMemberId());
+//		memberDTO.setRefreshToken(refreshToken);		
 		
 		memberService.joinUser(memberDTO);
 		return "ok";
