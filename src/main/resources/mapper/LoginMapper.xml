@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- MemberMapper.xml -->
+<mapper namespace="com.solji.star.member.mapper.LoginMapper">
+   
+   <!-- 로그인 확인 -->
+   <select id="doLogin" parameterType="String" resultType="String">
+   		select member_pw from member where member_id=#{loginId}
+   </select>
+   
+   <!-- 리프레시 토큰 가져오기 -->
+   <select id="getToken" parameterType="String" resultType="String">
+   		select refresh_token from member where member_id=#{loginId}
+   </select>
+   
+   <!-- 리프레시 토큰 저장하기 -->
+   <insert id="setRefreshToken" parameterType="String">
+   		insert into member(refresh_token) values('#{refreshToken}')
+   </insert>
+   
+   <!-- 리프체시 토큰 삭제 -->
+   <delete id="deleteRefreshToken" parameterType="String">
+   		delete refresh_token from member where member_id=#{userId}
+   </delete>
+   
+</mapper>
