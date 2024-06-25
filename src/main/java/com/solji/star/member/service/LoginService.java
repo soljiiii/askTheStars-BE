@@ -1,5 +1,8 @@
 package com.solji.star.member.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +24,11 @@ public class LoginService {
 		return result;
 	}
 
-	public void setRefreshToken(String refreshToken) {
-		loginMapper.setRefreshToken(refreshToken);
+	public void setRefreshToken(String refreshToken, String loginId) {
+		Map<String, String> params = new HashMap<>();
+		params.put("refreshToken", refreshToken);
+		params.put("memberId", loginId);
+		loginMapper.setRefreshToken(params);
 		
 	}
 

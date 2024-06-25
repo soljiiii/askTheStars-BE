@@ -3,6 +3,7 @@ package com.solji.star.member.util;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 import javax.crypto.SecretKey;
@@ -52,9 +53,22 @@ public class JwtUtil {
         }
     }
 
-    public String getUserId(String refreshToken) {
-        Claims claims = Jwts.parser().setSigningKey(getSigningKey()).build().parseClaimsJws(refreshToken).getBody();
-        return claims.getSubject();
+    public String getUserId(String accessToken) {
+        try {
+            // Parse JWT claims
+            Claims claims = Jwts.parser()
+                    .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8)) // Use your key here
+                    .build()
+                    .parseClaimsJws(accessToken)
+                    .getBody();
+
+            // Extract user ID from claims
+            String userId = claims.getSubject();
+            return userId;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

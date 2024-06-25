@@ -15,13 +15,13 @@
    </select>
    
    <!-- 리프레시 토큰 저장하기 -->
-   <insert id="setRefreshToken" parameterType="String">
-   		insert into member(refresh_token) values('#{refreshToken}')
-   </insert>
-   
+	<update id="setRefreshToken" parameterType="map">
+	    update member set refresh_token=#{refreshToken} where member_id=#{memberID}
+	</update>
+
    <!-- 리프체시 토큰 삭제 -->
-   <delete id="deleteRefreshToken" parameterType="String">
-   		delete refresh_token from member where member_id=#{userId}
-   </delete>
+   <update id="deleteRefreshToken">
+   		update member set refresh_token=null where member_id=#{userId}
+   </update>
    
 </mapper>

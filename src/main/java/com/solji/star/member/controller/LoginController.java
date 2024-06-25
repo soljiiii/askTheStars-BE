@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.solji.star.member.model.MemberDTO;
@@ -41,19 +42,27 @@ public class LoginController {
 		String refreshToken = jwtUtil.createRefreshToken(loginId);
 		String accessToken = jwtUtil.createAccessToken(loginId);
 		
-		loginService.setRefreshToken(refreshToken);
+		loginService.setRefreshToken(refreshToken, loginId);
 		
 		System.out.println("엑세스"+accessToken);
 		System.out.println("리프레시"+refreshToken);
 		
-		//쿠키에 저장
+		//access 토큰 secure 쿠키에 저장
 		Cookie accessTokenCookie = new Cookie("accessToken",accessToken);
-		accessTokenCookie.setHttpOnly(true);
+		accessTokenCookie.setHttpOnly(false);
 		accessTokenCookie.setSecure(false);
 		accessTokenCookie.setPath("/");
 		accessTokenCookie.setMaxAge(60*60);
 		
+		//refresh 토큰 httpOnly 쿠키에 저장 (javascript 로 접근 x)
+		Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
+		refreshTokenCookie.setHttpOnly(true);
+		refreshTokenCookie.setSecure(false);
+		refreshTokenCookie.setPath("/");
+		refreshTokenCookie.setMaxAge(7*24*60*60);
+		
 		response.addCookie(accessTokenCookie);
+		response.addCookie(refreshTokenCookie);
 		
 		return accessToken;
 	}
@@ -86,17 +95,25 @@ public class LoginController {
 	//로그아웃
 	//cookie에 저장된 refresh token과 access token 삭제
 	@PostMapping("/logout")
-	public String logout(@RequestBody String refreshToken,HttpServletResponse response) {
+	public String logout(@RequestHeader("Authorization") String authorizationHeader,HttpServletResponse response) {
+
+		String accessToken = authorizationHeader.substring("Bearer ".length()).trim();
 		
+		System.out.println("삭제"+accessToken);
         Cookie accessTokenCookie = new Cookie("accessToken", null);
-        accessTokenCookie.setHttpOnly(true);
-        accessTokenCookie.setSecure(false);
         accessTokenCookie.setPath("/");
         accessTokenCookie.setMaxAge(0); // 쿠키 삭제
 
-        response.addCookie(accessTokenCookie);
+        Cookie refreshTokenCookie = new Cookie("refreshToken", null);
+        refreshTokenCookie.setHttpOnly(true);
+        refreshTokenCookie.setSecure(false);
+        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setMaxAge(0); // 쿠키 삭제
         
-        String userId = jwtUtil.getUserId(refreshToken);
+        response.addCookie(accessTokenCookie);
+        response.addCookie( refreshTokenCookie);
+        
+        String userId = jwtUtil.getUserId(accessToken);
         loginService.deleteRefreshToken(userId);
         
 		return "logout successful";
