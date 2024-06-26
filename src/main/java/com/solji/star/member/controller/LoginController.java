@@ -101,6 +101,8 @@ public class LoginController {
 		
 		System.out.println("삭제"+accessToken);
         Cookie accessTokenCookie = new Cookie("accessToken", null);
+        accessTokenCookie.setHttpOnly(false);
+        accessTokenCookie.setSecure(false);
         accessTokenCookie.setPath("/");
         accessTokenCookie.setMaxAge(0); // 쿠키 삭제
 
@@ -116,8 +118,18 @@ public class LoginController {
         String userId = jwtUtil.getUserId(accessToken);
         loginService.deleteRefreshToken(userId);
         
-		return "logout successful";
-	}
+        // 로그를 추가하여 쿠키 정보 확인
+        System.out.println("로그아웃 - accessToken 쿠키: " + cookieToString(accessTokenCookie));
+        System.out.println("로그아웃 - refreshToken 쿠키: " + cookieToString(refreshTokenCookie));
+
+        return "logout successful";
+    }
+
+    private String cookieToString(Cookie cookie) {
+        return "Name: " + cookie.getName() + ", Value: " + cookie.getValue() +
+               ", Path: " + cookie.getPath() + ", HttpOnly: " + cookie.isHttpOnly() +
+               ", Secure: " + cookie.getSecure() + ", MaxAge: " + cookie.getMaxAge();
+    }
 }
 
 

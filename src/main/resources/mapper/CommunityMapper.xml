@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- MemberMapper.xml -->
+<mapper namespace="com.solji.star.community.mapper.CommunityMapper">
+   
+   <!-- 글작성 -->
+	<insert id="updatePosting" parameterType="post">
+	    insert into post (member_id, title, post_content, wrtn_date)
+	    values (#{memberId}, #{title}, #{postContent}, #{wrtnDate})
+	</insert>
+
+   
+</mapper>
