@@ -70,7 +70,9 @@ public class LoginController {
 	//access 토큰 갱신
 	@PostMapping("/refresh-token")
 	public String refreshAccessToken(@RequestBody String refreshToken, HttpServletResponse response) {
-	    if (jwtUtil.validateToken(refreshToken)) {
+	    
+		
+		if (jwtUtil.validateToken(refreshToken)) {
 	        String userId = jwtUtil.getUserId(refreshToken);
 	        String storedRefreshToken = loginService.getToken(userId);
 	        
@@ -83,6 +85,7 @@ public class LoginController {
 	            newAccessTokenCookie.setMaxAge(60 * 60); // 1시간 유효
 	            
 	            response.addCookie(newAccessTokenCookie);
+	            System.out.println("refresh 갱신");
 	            
 	            return "Access token refreshed";
 	        }

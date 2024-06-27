@@ -9,6 +9,18 @@
 	    insert into post (member_id, title, post_content, wrtn_date)
 	    values (#{memberId}, #{title}, #{postContent}, #{wrtnDate})
 	</insert>
+	
+	<!-- 글목록 -->
+	<select id="getWriteList" parameterType="int">
+	    select * from post 
+	    order by post_no desc 
+	    limit #{start}, 20
+	</select>
+	
+	<!-- 글갯수 -->
+	<select id="getTotalWriteCount" resultType="int">
+		select count(*) from post
+	</select>
 
    
 </mapper>

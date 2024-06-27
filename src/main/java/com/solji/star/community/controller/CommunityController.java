@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.solji.star.community.model.PostDTO;
+import com.solji.star.community.model.WriteListResponseDTO;
 import com.solji.star.community.service.CommunityService;
 import com.solji.star.member.util.JwtUtil;
 
@@ -27,12 +30,18 @@ public class CommunityController {
 	private CommunityService communityService;
 	
 
-	//글목록
-//	@GetMapping("/writeList")
-//	public List<PostDTO> writeList() {
-//		List<PostDTO> writeList = ;
-//		return writeList;
-//	}
+	// 글목록
+	@GetMapping("/writeList")
+	public WriteListResponseDTO writeList(@RequestParam(name="page") int page) {
+	    int pageSize = 20; // 페이지당 데이터 개수
+	    int start = (page - 1) * pageSize; // 시작 위치 계산
+
+	    List<PostDTO> writeList = communityService.getWriteList(start);
+	    int totalItems = communityService.getTotalWriteCount();
+	    
+	    return new WriteListResponseDTO(writeList, totalItems);
+	}
+
 	
 	//글상세보기
 	
