@@ -21,6 +21,16 @@
 	<select id="getTotalWriteCount" resultType="int">
 		select count(*) from post
 	</select>
+	
+	<!-- 글 상세 -->
+	<select id="getWriteDetail" parameterType="int" resultType="post">
+		select * from post where post_no=#{postNo}
+	</select>
+	
+	<!-- 조회수 추가 -->
+	<update id="plusVwCnt" parameterType="int">
+		update post set vw_cnt=vw_cnt+1 where post_no=#{postNo}
+	</update>
 
    
 </mapper>

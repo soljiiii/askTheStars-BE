@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -44,6 +45,15 @@ public class CommunityController {
 
 	
 	//글상세보기
+	@GetMapping("/postDetail/{postNo}")
+	public PostDTO getWriteDetail(@PathVariable(name="postNo") int postNo) {
+		
+		communityService.plusVwCnt(postNo);
+		PostDTO postDTO = communityService.getWrtieDetail(postNo);
+		
+		System.out.println(postDTO);
+		return postDTO;
+	}
 	
 	
 	//글쓰기
