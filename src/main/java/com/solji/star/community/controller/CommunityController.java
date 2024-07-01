@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.solji.star.community.model.PostDTO;
+import com.solji.star.community.model.ReplyList;
 import com.solji.star.community.model.WriteListResponseDTO;
 import com.solji.star.community.service.CommunityService;
 import com.solji.star.member.util.JwtUtil;
@@ -79,7 +80,34 @@ public class CommunityController {
 	//글삭제
 	//글수정
 	
+	//댓글목록
+	@GetMapping("/replyList/{postNo}")
+	public List<ReplyList> getReplyList(@PathVariable(name="postNo") int postNo) {
+		List<ReplyList> replyList = communityService.getReplyList(postNo);
+		return replyList;
+	}
+	
 	//댓글쓰기
+	@PostMapping("/writeReply")
+	public String writeReply(@RequestHeader("Authorization") String authorizationHeader,
+						   @RequestBody ReplyList replyList) {
+		String accessToken = authorizationHeader.substring("Bearer ".length()).trim();
+		String memberId = jwtUtil.getUserId(accessToken);
+		
+		Date now = new Date();
+		System.out.println(now);
+		System.out.println(memberId);
+		System.out.println(accessToken);
+		System.out.println(replyList);
+		
+		replyList.setMemberId(memberId);
+		replyList.setWrtnDate(now);
+		
+		communityService.wrtieReply(replyList);
+		
+		return "글쓰기 성공";
+	}
+	
 	//댓글삭제
 	//댓글수정
 }

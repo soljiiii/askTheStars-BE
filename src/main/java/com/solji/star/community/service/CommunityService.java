@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.solji.star.community.mapper.CommunityMapper;
 import com.solji.star.community.model.PostDTO;
+import com.solji.star.community.model.ReplyList;
 
 @Transactional
 @Service
@@ -38,6 +39,15 @@ public class CommunityService {
 	public void plusVwCnt(int postNo) {
 		System.out.println("Executing plusVwCnt for postNo: " + postNo);
 		communityMapper.plusVwCnt(postNo);		
+	}
+
+	public List<ReplyList> getReplyList(int postNo) {
+		List<ReplyList> replyList = communityMapper.getReplyList(postNo);
+		return replyList;
+	}
+
+	public void wrtieReply(ReplyList replyList) {
+		communityMapper.writeReply(replyList);
 	}
 
 }

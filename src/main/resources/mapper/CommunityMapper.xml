@@ -29,8 +29,19 @@
 	
 	<!-- 조회수 추가 -->
 	<update id="plusVwCnt" parameterType="int">
-		update post set vw_cnt=vw_cnt+1 where post_no=#{postNo}
+		update post set vw_cnt = vw_cnt+1 where post_no=#{postNo}
 	</update>
+	
+	<!-- 댓글 목록 -->
+	<select id="getReplyList" parameterType="int">
+		select * from reply where post_no=#{postNo}
+	</select>
+	
+	<!-- 댓글 쓰기 -->
+	<insert id="writeReply" parameterType="reply">
+		insert into reply (post_no, member_id, reply_content, wrtn_date)
+		values(#{postNo}, #{memberId}, #{replyContent}, #{wrtnDate})
+	</insert>
 
    
 </mapper>
