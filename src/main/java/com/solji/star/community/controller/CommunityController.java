@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -77,8 +78,42 @@ public class CommunityController {
 		return "글쓰기 성공";
 	}
 	
+	//id구하기
+	@GetMapping("/getMemberId")
+	public String getMemberId(@RequestHeader("Authorization") String authorizationHeader) {
+		
+		String accessToken = authorizationHeader.substring("Bearer ".length()).trim();
+		String memberId = jwtUtil.getUserId(accessToken);
+		
+		System.out.println("accessToken:"+accessToken);
+		System.out.println("memberId:"+memberId);
+		
+		return memberId;
+	}
+	
 	//글삭제
+	@DeleteMapping("/deletePost/{postNo}")
+	public String deletePost(@PathVariable(name="postNo") int postNo) {
+		
+		communityService.deleteUnderReply(postNo);
+		communityService.deletePost(postNo);
+		
+		return "ok";
+	}
+	
 	//글수정
+	@PostMapping("/modifyPost")
+	public String modifyPost(@RequestBody PostDTO postDTO) {
+		
+		Date now = new Date();
+		System.out.println(now);
+		postDTO.setWrtnDate(now);
+		
+		communityService.modifyPost(postDTO);
+		System.out.println(postDTO);
+		
+		return "ok";
+	}
 	
 	//댓글목록
 	@GetMapping("/replyList/{postNo}")
@@ -109,5 +144,25 @@ public class CommunityController {
 	}
 	
 	//댓글삭제
+	@DeleteMapping("/deleteReply/{replyNo}")
+	public String deleteReply(@PathVariable(name="replyNo") int replyNo) {
+		
+		communityService.deleteReply(replyNo);
+		
+		return "ok";
+	}
+	
+	
 	//댓글수정
+	@PostMapping("/modifyReply")
+	public String modifyReply(@RequestBody ReplyList replyList) {
+		
+		Date now = new Date();
+		replyList.setWrtnDate(now);
+		
+		communityService.modifyReply(replyList);
+		System.out.println(replyList);
+		
+		return "ok";
+	}
 }

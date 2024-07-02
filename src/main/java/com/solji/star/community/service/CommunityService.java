@@ -50,4 +50,24 @@ public class CommunityService {
 		communityMapper.writeReply(replyList);
 	}
 
+	public void deletePost(int postNo) {
+		communityMapper.deletePost(postNo);		
+	}
+
+	public void deleteUnderReply(int postNo) {
+		communityMapper.deleteUnderReply(postNo);
+	}
+
+	public void modifyPost(PostDTO postDTO) {
+		communityMapper.modifyPost(postDTO);		
+	}
+
+	public void modifyReply(ReplyList replyList) {
+		communityMapper.modifyReply(replyList);		
+	}
+
+	public void deleteReply(int replyNo) {
+		communityMapper.deleteReply(replyNo);		
+	}
+
 }

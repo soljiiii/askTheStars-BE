@@ -23,5 +23,14 @@ public interface CommunityMapper {
 
 	void writeReply(ReplyList replyList);
 
+	void deletePost(int postNo);
+
+	void deleteUnderReply(int postNo);
+
+	void modifyPost(PostDTO postDTO);
+
+	void modifyReply(ReplyList replyList);
+
+	void deleteReply(int replyNo);
 
 }

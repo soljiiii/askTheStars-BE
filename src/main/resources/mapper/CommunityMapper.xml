@@ -43,5 +43,28 @@
 		values(#{postNo}, #{memberId}, #{replyContent}, #{wrtnDate})
 	</insert>
 
+	<!-- 글삭제 -->
+	<delete id="deleteUnderReply" parameterType="int">
+		delete from reply where post_no=#{postNo}
+	</delete>
+	<delete id="deletePost" parameterType="int">
+		delete from post where post_no=#{postNo}
+	</delete>
+	
+	<!-- 글수정 -->
+	<update id="modifyPost" parameterType="post">
+		update post set title=#{title}, post_content=#{postContent}, wrtn_date=#{wrtnDate}
+		where post_no=#{postNo}
+	</update>
+	
+	<!-- 댓글수정 -->
+	<update id="modifyReply" parameterType="reply">
+		update reply set reply_content=#{replyContent}, wrtn_date=#{wrtnDate} where reply_no=#{replyNo}
+	</update>
+	
+	<!-- 댓글삭제 -->
+	<delete id="deleteReply" parameterType="int">
+		delete from reply where reply_no=#{replyNo}
+	</delete>
    
 </mapper>
