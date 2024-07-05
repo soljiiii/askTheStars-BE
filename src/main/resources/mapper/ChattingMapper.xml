@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- MemberMapper.xml -->
+<mapper namespace="com.solji.star.chatting.mapper.ChattingMapper">
+   
+   <!-- 방생성 -->
+   <insert id="createRoom" parameterType="String">
+   	insert into chat (chat_title, chat_state) values(#{chatTitle}, 1)
+   </insert>
+   
+   <!-- 방번호 뽑기 -->
+   <select id="getRoomNo" parameterType="String">
+   	select chat_no from chat where chat_title=#{chatTitle}
+   </select>
+   
+</mapper>

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.solji.star.community.model.LikeDTO;
 import com.solji.star.community.model.PostDTO;
 import com.solji.star.community.model.ReplyList;
 import com.solji.star.community.model.WriteListResponseDTO;
@@ -164,5 +165,39 @@ public class CommunityController {
 		System.out.println(replyList);
 		
 		return "ok";
+	}
+	
+	//글 좋아요 상태 가져오기
+	@GetMapping("/getLikeState")
+	public int getLikeState(@RequestParam("postNo")int postNo, 
+							@RequestHeader("Authorization") String authorizationHeader) {
+		
+		String accessToken = authorizationHeader.substring("Bearer ".length()).trim();
+		String memberId = jwtUtil.getUserId(accessToken);
+		
+		LikeDTO likeDTO = new LikeDTO();
+		likeDTO.setMemberId(memberId);
+		likeDTO.setPostNo(postNo);
+		
+		int result = communityService.getLikeState(likeDTO);
+		System.out.println("좋아요수"+likeDTO);
+		
+		return result;
+	}
+	
+	//글 좋아요
+	@PostMapping("/postLike")
+	public void postLike(@RequestBody LikeDTO likeDTO) {
+		
+		communityService.postLike(likeDTO);
+		communityService.countLike(likeDTO);
+	}
+	
+	//좋아요 취소
+	@PostMapping("deleteLike")
+	public void deleteLike(@RequestBody LikeDTO likeDTO) {
+		
+		communityService.deleteLike(likeDTO);
+		communityService.deleteLikeCount(likeDTO);
 	}
 }
