@@ -30,6 +30,15 @@ public class MemberService {
 		memberMapper.joinUser(memberDTO);
 		
 	}
+
+	public MemberDTO getMemberInfo(String memberId) {
+		MemberDTO memberDTO = memberMapper.getMemberInfo(memberId);
+		return memberDTO;
+	}
+
+	public void memberModify(MemberDTO memberDTO) {
+		memberMapper.memberModify(memberDTO);
+	}
 	
 	//회원수정
 	

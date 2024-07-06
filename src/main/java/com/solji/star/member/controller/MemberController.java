@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -64,22 +65,29 @@ public class MemberController {
 		int result = memberService.joinNickNmCheck(memberNickNm);
 		return result;
 	}
-	/*----------------------------------------------------*/
 	
-	//회원수정
-	@PutMapping("/memberModify")
-	public void memberModify() {
+	//회원정보 가져오기
+	@GetMapping("/getMemberInfo")
+	public MemberDTO getMemberInfo(@RequestHeader("Authorization") String authorizationHeader) {
 		
-	}
-	/*----------------------------------------------------*/
-	
-	//회원탈퇴
-	@DeleteMapping("/memberDelete")
-	public void memberDelete() {
+		String accessToken = authorizationHeader.substring("Bearer ".length()).trim();
+		String memberId = jwtUtil.getUserId(accessToken);
 		
+		MemberDTO memberDTO = memberService.getMemberInfo(memberId);
+		
+		return memberDTO;
 	}
 	
+	//회원정보 수정하기
+	@PostMapping("/memberModify")
+	public String memberModify(@RequestBody MemberDTO memberDTO) {
+		
+		memberService.memberModify(memberDTO);
+		
+		return "ok";
+	}
 	
+	//회원 탈퇴하기
 }
 
 
