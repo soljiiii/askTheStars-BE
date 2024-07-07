@@ -29,4 +29,25 @@
     	update member set member_nm=#{memberNm}, phone1=#{phone1}, phone2=#{phone2}, phone3=#{phone3}, identity_no1=#{identityNo1}, identity_no2=#{identityNo2}, email1=#{email1}, email2=#{email2}, member_pw=#{memberPw}
     	where member_id=#{memberId}
     </update>
+    
+    <!-- 회원 삭제 -->
+    <delete id="deleteMember" parameterType="String">
+    	delete from member where member_id=#{memberId}
+    </delete>
+    
+    <!-- postNo 구하기 -->
+    <select id="getPostNoList" parameterType="String">
+    	select post_no from post where member_id=#{memberId}
+    </select>
+    
+    <!-- 탈퇴시 댓글 -->
+    <delete id="deleteMemberReply" parameterType="String">
+    	delete from reply where member_id=#{memberId}
+    </delete>
+    
+    <!-- 탈퇴시 좋아요 -->
+    <delete id="deleteMemberLike" parameterType="String">
+    	delete from like_list where member_id=#{memberId}
+    </delete>
+    
 </mapper>

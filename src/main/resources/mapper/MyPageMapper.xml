@@ -22,4 +22,9 @@
    	where l.member_id=#{memberId}
    </select>
    
+   <!-- 기본 화면 멤버 정보 -->
+   <select id="getUserInfo" parameterType="String">
+   	select member_id, member_nm, member_nicknm, star_image from member where member_id=#{memberId}
+   </select>
+   
 </mapper>

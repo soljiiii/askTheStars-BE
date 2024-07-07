@@ -15,4 +15,8 @@ public interface MemberMapper {
     // 회원가입, 회원수정, 회원탈퇴 관련 메소드 추가 가능
 	public MemberDTO getMemberInfo(String memberId);
 	public void memberModify(MemberDTO memberDTO);
+	public void deleteMember(String memberId);
+	public int[] getPostNoList(String memberId);
+	public void deleteMemberReply(String memberId);
+	public void deleteMemberLike(String memberId);
 }

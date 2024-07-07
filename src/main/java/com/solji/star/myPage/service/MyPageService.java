@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.solji.star.member.model.MemberDTO;
 import com.solji.star.myPage.mapper.MyPageMapper;
 import com.solji.star.myPage.model.MyPostDTO;
 import com.solji.star.myPage.model.MyReplyDTO;
@@ -28,6 +29,11 @@ public class MyPageService {
 	public List<MyPostDTO> getMyLikedPost(String memberId) {
 		List<MyPostDTO> myLikedList = myPageMapper.getMyLikedPost(memberId);
 		return myLikedList;
+	}
+
+	public MemberDTO getUserINfo(String memberId) {
+		MemberDTO memberDTO = myPageMapper.getUserInfo(memberId); 
+		return memberDTO;
 	}
 
 }

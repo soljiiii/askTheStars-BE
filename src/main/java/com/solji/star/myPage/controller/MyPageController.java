@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.solji.star.member.model.MemberDTO;
 import com.solji.star.member.util.JwtUtil;
 import com.solji.star.myPage.model.MyPostDTO;
 import com.solji.star.myPage.model.MyReplyDTO;
@@ -22,6 +23,17 @@ public class MyPageController {
 	private MyPageService myPageService;
 	
 	//스탠다드 페이지
+	@GetMapping("/getUserInfo")
+	public MemberDTO getUserInfo(@RequestHeader("Authorization") String authorizationHeader) {
+		
+		String accessToken = authorizationHeader.substring("Bearer ".length()).trim();
+		String memberId = jwtUtil.getUserId(accessToken);
+		
+		MemberDTO memberDTO = myPageService.getUserINfo(memberId);
+		
+		System.out.println(memberDTO);
+		return memberDTO;
+	}
 	
 	//내가 쓴 글 목록
 	@GetMapping("/getMyPost")

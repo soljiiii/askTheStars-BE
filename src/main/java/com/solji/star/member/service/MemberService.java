@@ -39,6 +39,24 @@ public class MemberService {
 	public void memberModify(MemberDTO memberDTO) {
 		memberMapper.memberModify(memberDTO);
 	}
+
+	public void deleteMember(String memberId) {
+		memberMapper.deleteMember(memberId);
+		System.out.println("system"+memberId);
+	}
+
+	public int[] getPostNoList(String memberId) {
+		int [] arr = memberMapper.getPostNoList(memberId);
+		return arr;
+	}
+
+	public void deleteMemberReply(String memberId) {
+		memberMapper.deleteMemberReply(memberId);
+	}
+
+	public void deleteMemberLike(String memberId) {
+		memberMapper.deleteMemberLike(memberId);
+	}
 	
 	//회원수정
 	
