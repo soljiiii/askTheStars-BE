@@ -92,4 +92,12 @@ public class CommunityService {
 		communityMapper.deleteLikeCount(likeDTO);		
 	}
 
+	public void deleteUnderLike(int postNo) {
+		communityMapper.deleteUnderLike(postNo);		
+	}
+
+	public void deleteUnderLikeCount(int postNo) {
+		communityMapper.deleteUnderLikeCount(postNo);		
+	}
+
 }

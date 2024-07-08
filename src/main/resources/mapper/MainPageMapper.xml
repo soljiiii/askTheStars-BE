@@ -6,17 +6,17 @@
    
    <!-- 조회수 순 핫글 -->
    <select id="getHotPostVwCnt">
-   	select title, member_id, wrtn_date from post where order by vw_cnt desc limit 5;
+   	select title, member_id, wrtn_date, post_no from post order by vw_cnt desc limit 5;
    </select>
    
    <!-- 좋아요 순 핫글 -->
-   <select id="getHotPostLikeCt">
-   	select title, member_id, wrtn_date from post where order by liked_cnt desc limit 5;
+   <select id="getHotPostLikeCnt">
+   	select title, member_id, wrtn_date, post_no from post order by liked_cnt desc limit 5;
    </select>
    
    <!-- 최신순 핫글 -->
    <select id="getHotPostNewPost">
-   	select title, member_id, wrtn_date from post order by wrtn_date desc limit 5;
+   	select title, member_id, wrtn_date, post_no from post order by wrtn_date desc limit 5;
    </select>
    
 </mapper>

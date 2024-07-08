@@ -92,5 +92,15 @@
 		update post set liked_cnt=liked_cnt-1 where post_no=#{postNo}
 	</update>
 	
+	<!-- 글 삭제시 좋아요 삭제 -->
+	<delete id="deleteUnderLike" parameterType="int">
+		delete from like_list where post_no=#{postNo}
+	</delete>
+	
+	<!-- 글 삭제시 좋아요 카운트 다운 -->
+	<update id="deleteUnderLikeCount">
+		update post set liked_cnt=liked_cnt-1 where post_no=#{postNo}
+	</update>
+	
    
 </mapper>

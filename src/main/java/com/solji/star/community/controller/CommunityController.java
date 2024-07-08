@@ -97,6 +97,8 @@ public class CommunityController {
 	public String deletePost(@PathVariable(name="postNo") int postNo) {
 		
 		communityService.deleteUnderReply(postNo);
+		communityService.deleteUnderLike(postNo);
+		communityService.deleteUnderLikeCount(postNo);
 		communityService.deletePost(postNo);
 		
 		return "ok";

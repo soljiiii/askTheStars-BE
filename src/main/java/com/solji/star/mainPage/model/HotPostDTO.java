@@ -11,4 +11,5 @@ public class HotPostDTO {
 	private int vwCnt;
 	private Date wrtnDate;
 	private int likedCnt;
+	private int postNo;
 }

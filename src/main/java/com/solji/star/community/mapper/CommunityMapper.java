@@ -45,4 +45,8 @@ public interface CommunityMapper {
 
 	void deleteLikeCount(LikeDTO likeDTO);
 
+	void deleteUnderLike(int postNo);
+
+	void deleteUnderLikeCount(int postNo);
+
 }

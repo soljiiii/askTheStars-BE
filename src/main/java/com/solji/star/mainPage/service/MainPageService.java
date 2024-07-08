@@ -1,5 +1,7 @@
 package com.solji.star.mainPage.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,18 +14,18 @@ public class MainPageService {
 	@Autowired
 	private MainPageMapper mainPageMapper;
 	
-	public HotPostDTO getHotPostVwCnt() {
-		HotPostDTO hotPost = mainPageMapper.getHotPostVwCnt();
+	public List<HotPostDTO> getHotPostVwCnt() {
+		List<HotPostDTO> hotPost = mainPageMapper.getHotPostVwCnt();
 		return hotPost;
 	}
 
-	public HotPostDTO getHotPostLikeCnt() {
-		HotPostDTO hotPost = mainPageMapper.getHotPostLikeCnt();
+	public List<HotPostDTO> getHotPostLikeCnt() {
+		List<HotPostDTO> hotPost = mainPageMapper.getHotPostLikeCnt();
 		return hotPost;
 	}
 
-	public HotPostDTO getHotPostNewPost() {
-		HotPostDTO hotPost = mainPageMapper.getHotPostNewPost();
+	public List<HotPostDTO> getHotPostNewPost() {
+		List<HotPostDTO> hotPost = mainPageMapper.getHotPostNewPost();
 		return hotPost;
 	}
 

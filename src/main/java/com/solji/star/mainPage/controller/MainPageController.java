@@ -1,5 +1,7 @@
 package com.solji.star.mainPage.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,25 +18,26 @@ public class MainPageController {
 	
 	//인기글 가져오기
 	@GetMapping("/getHotPost")
-	public HotPostDTO getHotPost(@RequestParam("selectedOption") String selectedOption) {
+	public List<HotPostDTO> getHotPost(@RequestParam("selectedOption") String selectedOption) {
 		
-		HotPostDTO hotPostDTO = new HotPostDTO();
+		List<HotPostDTO> hotPostList = null;
+		System.out.println(selectedOption);
 		
-		if(selectedOption=="vwCnt") {
-			hotPostDTO = mainPageService.getHotPostVwCnt();
-			return hotPostDTO;
+		if(selectedOption.equals("vwCnt")) {
+			hotPostList = mainPageService.getHotPostVwCnt();
+			return hotPostList;
 		}
-		else if(selectedOption=="likeCnt") {
-			hotPostDTO = mainPageService.getHotPostLikeCnt();
-			return hotPostDTO;
+		else if(selectedOption.equals("likeCnt")) {
+			hotPostList = mainPageService.getHotPostLikeCnt();
+			return hotPostList;
 		}
-		else if(selectedOption=="newPost") {
-			hotPostDTO = mainPageService.getHotPostNewPost();
-			return hotPostDTO;
+		else if(selectedOption.equals("newPost")) {
+			hotPostList = mainPageService.getHotPostNewPost();
+			return hotPostList;
 		}
 		else {
 			System.out.println("select 오류");
-			return hotPostDTO;
+			return hotPostList;
 		}
 	}
 

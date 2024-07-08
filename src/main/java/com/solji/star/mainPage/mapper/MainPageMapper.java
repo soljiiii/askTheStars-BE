@@ -1,5 +1,7 @@
 package com.solji.star.mainPage.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.solji.star.mainPage.model.HotPostDTO;
@@ -7,10 +9,10 @@ import com.solji.star.mainPage.model.HotPostDTO;
 @Mapper
 public interface MainPageMapper {
 
-	HotPostDTO getHotPostVwCnt();
+	List<HotPostDTO> getHotPostVwCnt();
 
-	HotPostDTO getHotPostLikeCnt();
+	List<HotPostDTO> getHotPostLikeCnt();
 
-	HotPostDTO getHotPostNewPost();
+	List<HotPostDTO> getHotPostNewPost();
 
 }
