@@ -21,6 +21,7 @@ public class ChattingController {
 	@Autowired
 	private ChattingService chattingService;
 
+	//방생성 모달을 이용해 DB에 방 생성 정보 저장
 	@PostMapping("/createChat")
 	public Object createChat(@RequestBody Map<String, String> data) {
 	    String chatTitle = data.get("chatTitle");
@@ -41,23 +42,35 @@ public class ChattingController {
         }
 	}
 	
-	@MessageMapping("/chat/join")
-	@SendTo("/topic/chat")
-	public String joinChat(String message) {
-		
-		
-		return "User joined the chate: "+ message;
+	//websocket 서버에 방 생성
+	@MessageMapping("/createChatRoom")
+	@SendTo("/topic/{roomId}")
+	public void createChatRoom(@PathVariable String roomId) {
+		System.out.println("[채팅방 생성] Controller 시작!");
+//		chattingService.
 	}
 	
-	@MessageMapping("/chat/message")
-	@SendTo("/topic/chat")
-	public String sendMessage(String message) {
-		return message;
+	//방 참여
+	@MessageMapping("/joinChatRoom")
+	@SendTo("/topic/{roomId}")
+	public String joinChat(@PathVariable String roomId) {
+		
+		System.out.println("채팅방 참여");
+		return "User joined the chate: ";
 	}
 	
-	@MessageMapping("/chat/leave")
-	@SendTo("/topic/chat")
-	public String leaveChat(String username) {
-		return "UserLeft the chat: "+username;
+	//메세지 전송
+	@MessageMapping("/sendMessage")
+	@SendTo("/topic/{roomId}")
+	public String sendMessage(@PathVariable String roomId) {
+		System.out.println("메세지전송");
+		return "ㅎ";
 	}
+	
+//	//방 퇴장
+//	@MessageMapping("/chat/leave")
+//	@SendTo("/topic/chat")
+//	public String leaveChat(String username) {
+//		return "UserLeft the chat: "+username;
+//	}
 }
