@@ -2,16 +2,21 @@ package com.solji.star.chatting.controller;
 
 import java.util.Map;
 
+import org.apache.logging.log4j.message.SimpleMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.solji.star.chatting.model.ChatDTO;
 import com.solji.star.chatting.service.ChattingService;
 
 
@@ -20,6 +25,13 @@ public class ChattingController {
 	
 	@Autowired
 	private ChattingService chattingService;
+	
+	private final SimpMessagingTemplate messagingTemplate;
+	
+    @Autowired
+    public ChattingController(SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
+    }
 
 	//방생성 모달을 이용해 DB에 방 생성 정보 저장
 	@PostMapping("/createChat")
@@ -44,33 +56,29 @@ public class ChattingController {
 	
 	//websocket 서버에 방 생성
 	@MessageMapping("/createChatRoom")
-	@SendTo("/topic/{roomId}")
-	public void createChatRoom(@PathVariable String roomId) {
+	public void createChatRoom(@Payload ChatDTO chatDTO) {
 		System.out.println("[채팅방 생성] Controller 시작!");
-//		chattingService.
 	}
 	
 	//방 참여
 	@MessageMapping("/joinChatRoom")
-	@SendTo("/topic/{roomId}")
-	public String joinChat(@PathVariable String roomId) {
-		
+	public void joinChat(@Payload ChatDTO chatDTO) {
 		System.out.println("채팅방 참여");
-		return "User joined the chate: ";
+		//참여 인원수 추가
 	}
 	
 	//메세지 전송
 	@MessageMapping("/sendMessage")
-	@SendTo("/topic/{roomId}")
-	public String sendMessage(@PathVariable String roomId) {
+	public void sendMessage(@Payload ChatDTO chatDTO) {
 		System.out.println("메세지전송");
-		return "ㅎ";
+		System.out.println(chatDTO);
+		messagingTemplate.convertAndSend("/sub/"+ chatDTO.getRoomId(), chatDTO);
 	}
 	
-//	//방 퇴장
-//	@MessageMapping("/chat/leave")
-//	@SendTo("/topic/chat")
-//	public String leaveChat(String username) {
-//		return "UserLeft the chat: "+username;
-//	}
+	//방 퇴장
+	@MessageMapping("/chat/leave")
+	public void leaveChat(String username) {
+	}
+	
+	//채팅방 목록 보기
 }
