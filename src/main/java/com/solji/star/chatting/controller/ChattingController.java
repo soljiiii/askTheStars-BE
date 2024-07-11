@@ -1,5 +1,6 @@
 package com.solji.star.chatting.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.message.SimpleMessage;
@@ -10,6 +11,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.solji.star.chatting.model.ChatDTO;
+import com.solji.star.chatting.model.ChatListDTO;
 import com.solji.star.chatting.service.ChattingService;
 
 
@@ -57,7 +60,7 @@ public class ChattingController {
 	//websocket 서버에 방 생성
 	@MessageMapping("/createChatRoom")
 	public void createChatRoom(@Payload ChatDTO chatDTO) {
-		System.out.println("[채팅방 생성] Controller 시작!");
+		System.out.println("채팅방 생성");
 	}
 	
 	//방 참여
@@ -65,7 +68,7 @@ public class ChattingController {
 	public void joinChat(@Payload ChatDTO chatDTO) {
 		System.out.println("채팅방 참여");
 		//참여 인원수 추가
-	}
+		chattingService.chatStateCntUp();	}
 	
 	//메세지 전송
 	@MessageMapping("/sendMessage")
@@ -76,9 +79,25 @@ public class ChattingController {
 	}
 	
 	//방 퇴장
-	@MessageMapping("/chat/leave")
-	public void leaveChat(String username) {
+	@MessageMapping("/exitRoom")
+	public void leaveChat(@Payload ChatDTO chatDTO) {
+		System.out.println("방나가기");
+		System.out.println(chatDTO);
+		//참여 인원수 감소
+		chattingService.chatStateCntDown();
+		//참여 인원수 불러오기
+		int result = chattingService.getChatState(chatDTO);
+		System.out.println("인원수"+result);
+		if(result==0) {
+			chattingService.deleteChat(chatDTO);
+		}
 	}
 	
 	//채팅방 목록 보기
+	@GetMapping("/getChatList")
+	public List<ChatListDTO> getChatList(){
+		List<ChatListDTO> chatList = chattingService.getChatList();
+		System.out.println(chatList);
+		return chatList;
+	}
 }

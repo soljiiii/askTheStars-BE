@@ -59,8 +59,8 @@ public class MemberController {
 		//비밀번호 암호화
 		memberDTO.setMemberPw(passwordEncoder.encode(memberDTO.getMemberPw()));
 //		//토큰 저장
-//		String refreshToken = jwtUtil.createRefreshToken(memberDTO.getMemberId());
-//		memberDTO.setRefreshToken(refreshToken);		
+		String refreshToken = jwtUtil.createRefreshToken(memberDTO.getMemberId());
+		memberDTO.setRefreshToken(refreshToken);		
 		
 		memberService.joinUser(memberDTO);
 		return "ok";
