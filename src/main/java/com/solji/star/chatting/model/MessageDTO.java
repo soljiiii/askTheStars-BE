@@ -3,8 +3,8 @@ package com.solji.star.chatting.model;
 import lombok.Data;
 
 @Data
-public class ChatDTO {
-	private int roomId;
+public class MessageDTO {
 	private String userId;
-	private String chatTitle;
+	private int roomId;
+	private String myMessage;
 }

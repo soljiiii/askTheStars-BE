@@ -10,18 +10,20 @@ import com.solji.star.chatting.model.ChatListDTO;
 @Mapper
 public interface ChattingMapper {
 
-	void createRoom(String chatTitle);
+	void createRoom(ChatListDTO chatListDTO);
 
 	int getRoomNo(String chatTitle);
 
 	List<ChatListDTO> getChatList();
 
-	void chatStateCntDown();
+	ChatDTO getChatInfo(int roomId);
 
-	void chatStateCntUp();
+	void exitChat(ChatDTO chatDTO);
 
-	int getChatState(ChatDTO chatDTO);
+	int getUserCnt(int chatNo);
 
-	void deleteChat(ChatDTO chatDTO);
+	void joinGuest(ChatDTO chatDTO);
+
+	void deleteRoom(ChatDTO chatDTO);
 
 }

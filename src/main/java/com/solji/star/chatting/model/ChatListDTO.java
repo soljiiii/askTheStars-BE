@@ -7,6 +7,7 @@ public class ChatListDTO {
 
 	private int chatNo;
 	private String chatTitle;
-	private int chatState;
+	private String memberId;
+	private int userCnt;
 
 }

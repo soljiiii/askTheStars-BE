@@ -15,8 +15,8 @@ public class ChattingService {
 	@Autowired
 	private ChattingMapper chattingMapper;
 	
-	public void createRoom(String chatTitle) {
-		chattingMapper.createRoom(chatTitle);
+	public void createRoom(ChatListDTO chatListDTO) {
+		chattingMapper.createRoom(chatListDTO);
 	}
 
 	public int getRoomNo(String chatTitle) {
@@ -29,21 +29,26 @@ public class ChattingService {
 		return chatList;
 	}
 
-	public void chatStateCntDown() {
-		chattingMapper.chatStateCntDown();	
+	public ChatDTO getChatInfo(int roomId) {
+		ChatDTO chatDTO = chattingMapper.getChatInfo(roomId);
+		return chatDTO;
 	}
 
-	public void chatStateCntUp() {
-		chattingMapper.chatStateCntUp();
+	public void exitChat(ChatDTO chatDTO) {
+		chattingMapper.exitChat(chatDTO);		
 	}
 
-	public int getChatState(ChatDTO chatDTO) {
-		int result = chattingMapper.getChatState(chatDTO);
-		return result;
+	public int getUeserCnt(int chatNo) {
+		int userCnt = chattingMapper.getUserCnt(chatNo);
+		return userCnt;
 	}
 
-	public void deleteChat(ChatDTO chatDTO) {
-		chattingMapper.deleteChat(chatDTO);
+	public void joinGuest(ChatDTO chatDTO) {
+		chattingMapper.joinGuest(chatDTO);		
+	}
+
+	public void deleteRoom(ChatDTO chatDTO) {
+		chattingMapper.deleteRoom(chatDTO);		
 	}
 
 }

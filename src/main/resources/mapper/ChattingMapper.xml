@@ -6,7 +6,7 @@
    
    <!-- 방생성 -->
    <insert id="createRoom" parameterType="String">
-   	insert into chat (chat_title, chat_state) values(#{chatTitle}, 0)
+   	insert into chat (chat_title) values(#{chatTitle})
    </insert>
    
    <!-- 방번호 뽑기 -->
@@ -19,24 +19,30 @@
    	select * from chat 
    </select>
    
-   <!-- 채팅방 인원수 카운트 업 -->
-   <update id="chatStateCntUp">
-   	update chat set chat_state=chat_state+1
-   </update>
-   
-   <!-- 채팅방 인원수 카운트 다운 -->
-   <update id="chatStateCntDown">
-   	update chat set chat_state=chat_state-1
-   </update>
-   
-   <!-- 채팅방 인원수 가져오기 -->
-   <select id="getChatState" parameterType="ChatDTO">
-   	select chat_state from chat where chat_no=#{roomId}
+   <!-- 채팅방 정보 가져오기 -->
+   <select id="getChatInfo">
+   	select distinct * from chat where chat_no=#{roomId}
    </select>
-   
-   <!-- 채팅방 삭제 -->
-   <delete id="deleteChat" parameterType="ChatDTO">
-   	delete from chat where chat_no=#{roomId}
-   </delete>
+
+    <!-- 채팅방 퇴장 --> 
+    <delete id="exitChat">
+    	delete from chat_member where member_id=#{userId} and chat_no=#{roomId}
+    </delete>
+    
+    <!-- 인원수 세기 -->
+    <select id="getUserCnt">
+    	select count(*) from chat_member where chat_no=#{chatNo}
+    </select>
+    
+    <!-- 조인버튼을 통해 조인 -->
+    <insert id="joinGuest">
+    	insert into chat_member(chat_no, member_id) 
+    	values(#{roomId},#{userId}) 
+    </insert>
+    
+    <!-- 방삭제 -->
+    <delete id="deleteRoom">
+    	delete from chat where chat_no=#{roomId}
+    </delete>
    
 </mapper>
