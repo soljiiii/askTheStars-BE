@@ -4,6 +4,11 @@
 <!-- MemberMapper.xml -->
 <mapper namespace="com.solji.star.chatting.mapper.ChattingMapper">
    
+   <!-- 방 존재 여부 -->
+   <select id="checkExistRoom">
+   	select count(*) from chat where chat_title=#{chatTitle}
+   </select>
+   
    <!-- 방생성 -->
    <insert id="createRoom" parameterType="String">
    	insert into chat (chat_title) values(#{chatTitle})
@@ -16,12 +21,12 @@
    
    <!-- 채팅방 리스트 -->
    <select id="getChatList">
-   	select * from chat 
+   	select distinct * from chat 
    </select>
    
    <!-- 채팅방 정보 가져오기 -->
    <select id="getChatInfo">
-   	select distinct * from chat where chat_no=#{roomId}
+   	select * from chat where chat_no=#{roomId}
    </select>
 
     <!-- 채팅방 퇴장 --> 

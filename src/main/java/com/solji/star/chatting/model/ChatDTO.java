@@ -7,4 +7,5 @@ public class ChatDTO {
 	private int roomId;
 	private String userId;
 	private String chatTitle;
+	private String type;
 }

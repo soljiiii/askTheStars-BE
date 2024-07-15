@@ -26,4 +26,7 @@ public interface ChattingMapper {
 
 	void deleteRoom(ChatDTO chatDTO);
 
+	int checkExistRoom(String chatTitle);
+
+
 }

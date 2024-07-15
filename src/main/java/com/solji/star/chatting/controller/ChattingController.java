@@ -41,7 +41,7 @@ public class ChattingController {
     public ChattingController(SimpMessagingTemplate messagingTemplate) {
         this.messagingTemplate = messagingTemplate;
     }
-
+    
 	//방생성 모달을 이용해 DB에 방 생성 정보 저장
 	@PostMapping("/createChat")
 	public Object createChat(@RequestHeader("Authorization") String authorizationHeader,
@@ -57,20 +57,34 @@ public class ChattingController {
 		
 		chatListDTO.setChatTitle(chatTitle);
 		
-		try {
-            chattingService.createRoom(chatListDTO);
-            int roomNo = chattingService.getRoomNo(chatTitle);
-            System.out.println("roomNo"+roomNo);
-            return roomNo;
-        } 
-		catch (EmptyResultDataAccessException e) {
-            // 결과가 없는 경우 (단일 결과가 아님)
-            return "Multiple results found for chatTitle: " + chatTitle;
-        } 
-		catch (Exception e) {
-            // 기타 예외 처리
-            return "Server error occurred";
-        }
+		 try {
+		        int exist = chattingService.checkExistRoom(chatTitle);
+		        System.out.println(exist);
+
+		        if (exist == 0) {
+		            chattingService.createRoom(chatListDTO);
+		            int roomNo = chattingService.getRoomNo(chatTitle);
+		            System.out.println("roomNo" + roomNo);
+		            return roomNo;
+		        } else {
+		            return "이미 존재하는 방 이름입니다."; // 클라이언트에서 처리할 메시지 반환
+		        }
+		        
+		    } catch (EmptyResultDataAccessException e) {
+		        // 결과가 없는 경우 (단일 결과가 아님)
+		        return "Multiple results found for chatTitle: " + chatTitle;
+		    } catch (Exception e) {
+		        // 기타 예외 처리
+		        return "Server error occurred";
+		    }
+	}
+
+	
+	//websocket 서버에 방 생성
+	@MessageMapping("/createChatRoom")
+	public void createChatRoom(@Payload ChatDTO chatDTO) {
+		chattingService.joinGuest(chatDTO);
+		System.out.println("채팅방 생성"+chatDTO);
 	}
 	
 	//채팅방 사용자 수 불러오기
@@ -81,17 +95,11 @@ public class ChattingController {
 		return userCnt;
 	}
 	
-	//websocket 서버에 방 생성
-	@MessageMapping("/createChatRoom")
-	public void createChatRoom(@Payload ChatDTO chatDTO) {
-		chattingService.joinGuest(chatDTO);
-		System.out.println("채팅방 생성");
-	}
-	
 	//방 참여
 	@MessageMapping("/joinChatRoom")
 	public void joinChat(@Payload ChatDTO chatDTO) {
 		System.out.println("채팅방 참여");
+		chatDTO.setType("join");
 
 		messagingTemplate.convertAndSend("/sub/"+chatDTO.getRoomId(), chatDTO);
 	}
@@ -111,11 +119,13 @@ public class ChattingController {
 		
 		System.out.println("방나가기");
 		System.out.println(chatDTO);
+		chatDTO.setType("exit");
 		
 		//나가기
 		chattingService.exitChat(chatDTO);
 		
 		int userCnt = chattingService.getUeserCnt(chatDTO.getRoomId());
+		System.out.println("userCnt"+userCnt);
 		if(userCnt==0) {
 			chattingService.deleteRoom(chatDTO);
 		}
@@ -129,7 +139,6 @@ public class ChattingController {
 	public List<ChatListDTO> getChatList(){
 		
 		List<ChatListDTO> chatList = chattingService.getChatList();
-		System.out.println(chatList);
 		return chatList;
 	}
 	
@@ -138,8 +147,10 @@ public class ChattingController {
 	public ChatDTO getChatInfo(@PathVariable("roomId") int roomId) {
 		
 		ChatDTO chatDTO = chattingService.getChatInfo(roomId);
+		chatDTO.setRoomId(roomId);
 		System.out.println("roomId"+roomId);
-		System.out.println(chatDTO);
 		return chatDTO;
 	}
+	
+	
 }

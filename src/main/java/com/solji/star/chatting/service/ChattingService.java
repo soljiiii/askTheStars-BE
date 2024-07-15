@@ -51,4 +51,10 @@ public class ChattingService {
 		chattingMapper.deleteRoom(chatDTO);		
 	}
 
+	public int checkExistRoom(String chatTitle) {
+		int exist = chattingMapper.checkExistRoom(chatTitle);
+		return exist;
+	}
+
+
 }
