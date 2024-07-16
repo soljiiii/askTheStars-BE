@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- MemberMapper.xml -->
+<mapper namespace="com.solji.star.myPage.mapper.MyPageMapper">
+   
+   <!-- 내가 쓴 글 목록 -->
+   <select id="getMyPost" parameterType="String">
+   	select post_no, title, wrtn_date from post where member_id=#{memberId}
+   </select>
+	
+   <!-- 내가 쓴 댓글 목록 -->
+   <select id="getMyReply" parameterType="String">
+   	select post_no, reply_content, wrtn_date from reply where member_id=#{memberId}
+   </select>
+   
+   <!-- 내가 좋아한 글 목록 -->
+   <select id="getMyLikedPost" parameterType="String">
+   	select p.post_no, p.title, p.wrtn_date
+   	from post p
+   	inner join like_list l on p.post_no=l.post_no
+   	where l.member_id=#{memberId}
+   </select>
+   
+   <!-- 기본 화면 멤버 정보 -->
+   <select id="getUserInfo" parameterType="String">
+   	select member_id, member_nm, member_nicknm, star_image from member where member_id=#{memberId}
+   </select>
+   
+</mapper>

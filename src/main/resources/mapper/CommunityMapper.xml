@@ -66,5 +66,41 @@
 	<delete id="deleteReply" parameterType="int">
 		delete from reply where reply_no=#{replyNo}
 	</delete>
+	
+	<!-- 좋아요 상태 -->
+	<select id="getLikeState" parameterType="like">
+		select count(*) from like_list where member_id=#{memberId} and post_no=#{postNo}
+	</select>
+	
+	<!-- 좋아요 누르기 -->
+	<insert id="postLike" parameterType="like">
+		insert into like_list (member_id, post_no) values(#{memberId}, #{postNo})
+	</insert>
+	
+	<!-- 좋아요 카운트업 -->
+	<update id="countLike" parameterType="like">
+		update post set liked_cnt=liked_cnt+1 where post_no=#{postNo}
+	</update>
+	
+	<!-- 좋아요 삭제 -->
+	<delete id="deleteLike" parameterType="like">
+		 delete from like_list where post_no=#{postNo} and member_id=#{memberId}
+	</delete>
+	
+	<!-- 좋아요 카운트 다운 -->
+	<update id="deleteLikeCount" parameterType="like">
+		update post set liked_cnt=liked_cnt-1 where post_no=#{postNo}
+	</update>
+	
+	<!-- 글 삭제시 좋아요 삭제 -->
+	<delete id="deleteUnderLike" parameterType="int">
+		delete from like_list where post_no=#{postNo}
+	</delete>
+	
+	<!-- 글 삭제시 좋아요 카운트 다운 -->
+	<update id="deleteUnderLikeCount">
+		update post set liked_cnt=liked_cnt-1 where post_no=#{postNo}
+	</update>
+	
    
 </mapper>

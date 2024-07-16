@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.solji.star.community.mapper.CommunityMapper;
+import com.solji.star.community.model.LikeDTO;
 import com.solji.star.community.model.PostDTO;
 import com.solji.star.community.model.ReplyList;
 
@@ -68,6 +69,35 @@ public class CommunityService {
 
 	public void deleteReply(int replyNo) {
 		communityMapper.deleteReply(replyNo);		
+	}
+
+	public int getLikeState(LikeDTO likeDTO) {
+		int result = communityMapper.getLikeState(likeDTO);
+		return result;
+	}
+
+	public void postLike(LikeDTO likeDTO) {
+		communityMapper.postLike(likeDTO);		
+	}
+
+	public void countLike(LikeDTO likeDTO) {
+		communityMapper.countLike(likeDTO);		
+	}
+
+	public void deleteLike(LikeDTO likeDTO) {
+		communityMapper.deleteLike(likeDTO);		
+	}
+
+	public void deleteLikeCount(LikeDTO likeDTO) {
+		communityMapper.deleteLikeCount(likeDTO);		
+	}
+
+	public void deleteUnderLike(int postNo) {
+		communityMapper.deleteUnderLike(postNo);		
+	}
+
+	public void deleteUnderLikeCount(int postNo) {
+		communityMapper.deleteUnderLikeCount(postNo);		
 	}
 
 }
