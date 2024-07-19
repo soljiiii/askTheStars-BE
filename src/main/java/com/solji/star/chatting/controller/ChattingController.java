@@ -91,7 +91,6 @@ public class ChattingController {
 	@GetMapping("/getUserCnt/{chatNo}")
 	public int getUserCnt(@PathVariable("chatNo") int chatNo) {
 		int userCnt = chattingService.getUeserCnt(chatNo);
-		System.out.println("사용자수 "+userCnt);
 		return userCnt;
 	}
 	

@@ -57,10 +57,7 @@ public class MemberController {
 		//이미지 랜덤 번호
 		memberDTO.setStarImage(randomStar);
 		//비밀번호 암호화
-		memberDTO.setMemberPw(passwordEncoder.encode(memberDTO.getMemberPw()));
-//		//토큰 저장
-		String refreshToken = jwtUtil.createRefreshToken(memberDTO.getMemberId());
-		memberDTO.setRefreshToken(refreshToken);		
+		memberDTO.setMemberPw(passwordEncoder.encode(memberDTO.getMemberPw()));	
 		
 		memberService.joinUser(memberDTO);
 		return "ok";

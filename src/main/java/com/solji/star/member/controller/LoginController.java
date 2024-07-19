@@ -47,7 +47,7 @@ public class LoginController {
 		System.out.println("엑세스"+accessToken);
 		System.out.println("리프레시"+refreshToken);
 		
-		//access 토큰 secure 쿠키에 저장
+		//access 토큰 쿠키에 저장
 		Cookie accessTokenCookie = new Cookie("accessToken",accessToken);
 		accessTokenCookie.setHttpOnly(false);
 		accessTokenCookie.setSecure(false);
